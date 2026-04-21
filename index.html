@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrezzoBot | Trova le offerte migliori</title>
+    <title>PrezzoGiusto | Bot Discord & Telegram</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
         tailwind.config = {
@@ -16,200 +16,262 @@
                     colors: {
                         discord: '#5865F2',
                         telegram: '#0088cc',
+                        primary: '#3b82f6',
+                        secondary: '#10b981'
                     }
                 }
             }
         }
     </script>
 
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
-
     <style>
-        /* Stili per le card con effetto vetro che si adattano al tema */
-        .glass {
-            backdrop-filter: blur(10px);
-            transition: background-color 0.3s, border-color 0.3s;
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .dark .glass-nav {
+            background-color: rgba(15, 23, 42, 0.8);
+        }
+        .glass-card {
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
     </style>
 </head>
 
-<body class="font-sans bg-slate-50 text-slate-900 dark:bg-[#0f172a] dark:text-white transition-colors duration-300">
+<body class="font-sans bg-slate-50 text-slate-900 dark:bg-[#0f172a] dark:text-gray-100 transition-colors duration-300">
 
-    <button id="theme-toggle" type="button"
-        class="fixed top-5 right-5 z-50 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-xl p-3 transition-colors shadow-lg bg-white dark:bg-gray-800">
-        <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
-        <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-yellow-400"></i>
-    </button>
+    <nav class="fixed w-full z-50 glass-nav border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 group cursor-pointer">
+                    <div class="bg-blue-600 p-2 rounded-lg text-white group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-robot text-xl"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">Prezzo<span class="text-blue-500">Giusto</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#" class="hover:text-blue-500 transition">Home</a>
+                    <a href="#progetto" class="hover:text-blue-500 transition">Progetto</a>
+                    <a href="#comandi" class="hover:text-blue-500 transition">Comandi</a>
+                    <a href="#contatti" class="hover:text-blue-500 transition font-bold text-blue-600 dark:text-blue-400">Contatti</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                        <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+                        <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-yellow-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <header class="py-16 md:py-24 px-6 text-center">
-        <div class="max-w-4xl mx-auto mt-8">
-            <span
-                class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider transition-colors">Project
-                Work ITS</span>
-            <h1
-                class="text-4xl md:text-6xl font-extrabold mt-6 mb-4 bg-gradient-to-r from-blue-500 to-emerald-500 dark:from-blue-400 dark:to-emerald-400 bg-clip-text text-transparent leading-tight">
-                Risparmia su ogni acquisto.
+    <header class="relative pt-32 pb-20 px-6">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 border border-blue-200 dark:border-blue-800">
+                Project Work ITS 2026 | Multi-Platform Bot
+            </span>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-blue-400 dark:to-emerald-300 bg-clip-text text-transparent leading-tight">
+                Shopping intelligente.<br>Prezzo Giusto.
             </h1>
-            <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg mb-10 px-4">
-                Il bot intelligente che scansiona il web per trovarti i prezzi più bassi su Amazon e i principali store
-                online.
+            <p class="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                Il tuo assistente smart disponibile su Discord e Telegram. Risparmia tempo e denaro con ricerche istantanee e link certificati.
             </p>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-4 px-4">
-                <a href="https://discord.com/oauth2/authorize?client_id=1485954380946477056"
-                    class="bg-discord hover:bg-[#4752C4] text-white transition px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-discord/30 w-full sm:w-auto">
-                    <i class="fab fa-discord text-xl"></i> Aggiungi a Discord
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://discord.com/oauth2/authorize?client_id=1485954380946477056" class="bg-discord hover:shadow-discord/30 hover:shadow-2xl transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3">
+                    <i class="fab fa-discord text-xl"></i> Discord Bot
                 </a>
-                <a href="#"
-                    class="bg-telegram hover:bg-[#0077b5] text-white transition px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-telegram/30 w-full sm:w-auto">
-                    <i class="fab fa-telegram-plane text-xl"></i> Prova su Telegram
+                <a href="#" class="bg-telegram hover:shadow-telegram/30 hover:shadow-2xl transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3">
+                    <i class="fab fa-telegram-plane text-xl"></i> Telegram Bot
                 </a>
             </div>
         </div>
     </header>
 
-    <section class="py-12 md:py-16 px-6 bg-white dark:bg-[#151e32] transition-colors">
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+    <section class="pb-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-gray-200 dark:border-gray-800 py-12 text-center bg-white/30 dark:bg-slate-900/30 rounded-3xl">
             <div>
-                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200"><i
-                        class="fas fa-microchip text-blue-500 mr-2"></i> Il Nostro Progetto</h2>
-                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Prezzo Giusto nasce come Project Work per il nostro percorso ITS. L'obiettivo era risolvere un
-                    problema quotidiano: la difficoltà di orientarsi tra i mille prezzi degli e-commerce. Abbiamo
-                    sviluppato un'infrastruttura backend in <strong>Python</strong> integrando le
-                    <strong>SerpApi</strong> per scansionare in tempo reale i motori di ricerca e i negozi, garantendo
-                    all'utente il prezzo migliore e verificando che lo sconto sia reale.
-                </p>
+                <p class="text-3xl font-black text-blue-500">Python 3.11</p>
+                <p class="text-xs text-gray-500 uppercase font-bold tracking-widest mt-1">Core Engine</p>
             </div>
             <div>
-                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200"><i
-                        class="fas fa-users text-emerald-500 mr-2"></i> Chi Siamo</h2>
-                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Siamo un gruppo di studenti appassionati di programmazione, automazione e analisi dei dati. Ognuno
-                    di noi ha contribuito a un tassello diverso del progetto: dalla creazione degli script di scraping
-                    per estrarre costo e negozio, alla normalizzazione dei dati, fino allo sviluppo di questa
-                    interfaccia e all'integrazione con le API di Discord e Telegram.
-                </p>
+                <p class="text-3xl font-black text-telegram">Telegram</p>
+                <p class="text-xs text-gray-500 uppercase font-bold tracking-widest mt-1">API Integrata</p>
+            </div>
+            <div>
+                <p class="text-3xl font-black text-blue-500">SerpApi</p>
+                <p class="text-xs text-gray-500 uppercase font-bold tracking-widest mt-1">Data Source</p>
+            </div>
+            <div>
+                <p class="text-3xl font-black text-discord">Discord</p>
+                <p class="text-xs text-gray-500 uppercase font-bold tracking-widest mt-1">Interfaccia UI</p>
             </div>
         </div>
     </section>
 
-    <section class="py-16 px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-gray-200">I Comandi Principali</h2>
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div
-                class="glass bg-white/70 dark:bg-slate-800/70 border border-gray-200 dark:border-white/10 p-8 rounded-2xl shadow-xl">
-                <div class="text-blue-500 dark:text-blue-400 text-3xl mb-4"><i class="fas fa-search"></i></div>
-                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">!cerca [prodotto]</h3>
-                <p class="text-gray-500 dark:text-gray-400 italic text-sm mb-4">"Cerca ovunque al miglior prezzo"</p>
-                <p class="text-gray-600 dark:text-gray-300">Analizza istantaneamente decine di negozi online per trovare
-                    il prezzo più competitivo.</p>
-            </div>
-            <div
-                class="glass bg-white/70 dark:bg-slate-800/70 border border-orange-200 dark:border-orange-500/30 p-8 rounded-2xl shadow-xl">
-                <div class="text-orange-500 dark:text-orange-400 text-3xl mb-4"><i class="fab fa-amazon"></i></div>
-                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">!amazon [prodotto]</h3>
-                <p class="text-gray-500 dark:text-gray-400 italic text-sm mb-4">"Solo il meglio di Amazon.it"</p>
-                <p class="text-gray-600 dark:text-gray-300">Filtra i risultati esclusivamente sullo store Amazon,
-                    includendo spedizioni Prime e offerte lampo.</p>
-            </div>
-            <div
-                class="glass bg-white/70 dark:bg-slate-800/70 border border-emerald-200 dark:border-emerald-500/30 p-8 rounded-2xl shadow-xl">
-                <div class="text-emerald-500 dark:text-emerald-400 text-3xl mb-4"><i class="fas fa-fire"></i></div>
-                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">!offerte [prodotto]</h3>
-                <p class="text-gray-500 dark:text-gray-400 italic text-sm mb-4">"Caccia allo sconto reale"</p>
-                <p class="text-gray-600 dark:text-gray-300">Mostra solo i prodotti che hanno una riduzione di prezzo
-                    verificata rispetto al listino.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 px-6 bg-gray-100 dark:bg-[#0a0f1d] transition-colors">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-gray-200">Come appaiono i risultati
-            </h2>
-            <div
-                class="bg-white dark:bg-[#2b2d31] border-l-4 border-green-500 rounded-md p-4 flex flex-col sm:flex-row gap-4 max-w-lg mx-auto shadow-2xl transition-colors">
-                <div class="flex-1">
-                    <h4>
-                        <a href="https://www.amazon.it/Apple-iPhone-Pro-128-Ricondizionato/dp/B0CVJ2RLP5/ref=sr_1_1?dib=eyJ2IjoiMSJ9.8VL3NsthQUjWHBbYTvnLXRGHRsuHTeRTocEgOhFlWcU4_Icn5T8-H4-g8wPykyNhah6whH_N1DEFywvByO8YlW0z-ZjERRcGnR4So1sNFePIZVLysldxfdHxiehkTGWjEtNE_M0nsL4UNp9r2E09xmmUjumAatek8p8bb3iv0C88TcRvYT3qxt2TOW7r9ifgpD3htNQrIEGH1bgOHTzFO7oxGmxNoOUHgB2xR9GkB4JNEbnBsP_jmBRVf_rAPEqFEQbVTVWXADIbWTx7XbNZaCWfC12S2WYICRuZ3On9i_I.tRgx9_Op2Ti7xOyXenFpnZF30UmqPJ4vXegkkLbavKY&dib_tag=se&keywords=iPhone%2B15%2BPro%2B-%2B128GB&qid=1776782902&sr=8-1&th=1"
-                            target="_blank"
-                            class="text-[#0088cc] dark:text-[#00a8fc] font-bold hover:underline cursor-pointer">
-                            iPhone 15 Pro - 128GB
-                        </a>
-                    </h4>
-                    <div class="mt-2 flex flex-col gap-1 text-gray-800 dark:text-gray-200">
-                        <p><span class="font-bold">💰 Prezzo:</span> 949,00€</p>
-                        <p><span class="font-bold">🏪 Negozio:</span> Amazon.it</p>
-                        <p><span class="font-bold">📉 Sconto:</span> <span
-                                class="line-through text-gray-500">1029,00€</span></p>
+    <section id="progetto" class="py-24 px-6 bg-white dark:bg-[#0a0f1d]/50">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-3xl border border-blue-100 dark:border-blue-800 shadow-sm">
+                        <i class="fas fa-terminal text-3xl text-blue-500 mb-4"></i>
+                        <h3 class="font-bold text-lg mb-2">Setup Hook</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Gestione asincrona delle sessioni HTTP per performance ottimali su più piattaforme.</p>
                     </div>
-                    <button
-                        onclick="window.location.href='https://www.amazon.it/Apple-iPhone-Pro-128-Ricondizionato/dp/B0CVJ2RLP5/ref=sr_1_1?dib=eyJ2IjoiMSJ9.8VL3NsthQUjWHBbYTvnLXRGHRsuHTeRTocEgOhFlWcU4_Icn5T8-H4-g8wPykyNhah6whH_N1DEFywvByO8YlW0z-ZjERRcGnR4So1sNFePIZVLysldxfdHxiehkTGWjEtNE_M0nsL4UNp9r2E09xmmUjumAatek8p8bb3iv0C88TcRvYT3qxt2TOW7r9ifgpD3htNQrIEGH1bgOHTzFO7oxGmxNoOUHgB2xR9GkB4JNEbnBsP_jmBRVf_rAPEqFEQbVTVWXADIbWTx7XbNZaCWfC12S2WYICRuZ3On9i_I.tRgx9_Op2Ti7xOyXenFpnZF30UmqPJ4vXegkkLbavKY&dib_tag=se&keywords=iPhone%2B15%2BPro%2B-%2B128GB&qid=1776782902&sr=8-1&th=1'"
-                        class="mt-4 bg-gray-200 hover:bg-gray-300 dark:bg-[#4e5058] dark:hover:bg-[#6d6f78] text-gray-800 dark:text-white w-full py-2 rounded text-sm font-medium transition-colors">
-                        Vai su Amazon.it
-                    </button>
+                    <div class="bg-emerald-50 dark:bg-emerald-900/20 p-8 rounded-3xl border border-emerald-100 dark:border-emerald-800 shadow-sm">
+                        <i class="fas fa-link-slash text-3xl text-emerald-500 mb-4"></i>
+                        <h3 class="font-bold text-lg mb-2">Link Cleaning</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Algoritmo di pulizia URL per rimuovere tracking e redirect di Google Shopping.</p>
+                    </div>
                 </div>
-                <div
-                    class="w-full sm:w-24 h-48 sm:h-24 bg-gray-50 dark:bg-white rounded-lg flex items-center justify-center p-2 border dark:border-none">
-                    <img src="https://m.media-amazon.com/images/I/718HsTdQOiL._AC_SL1024_.jpg" alt="iPhone"
-                        class="max-w-full max-h-full object-contain rounded">
+            </div>
+            <div class="order-1 md:order-2">
+                <h2 class="text-4xl font-black mb-6 text-gray-900 dark:text-white leading-tight underline decoration-blue-500 decoration-4 underline-offset-8">Architettura Multi-Bot</h2>
+                <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6">
+                    Il cuore del progetto è scritto in <strong>Python</strong>, utilizzando un'architettura asincrona che permette di servire utenti su Discord e Telegram contemporaneamente senza rallentamenti.
+                </p>
+                <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                    Sia che tu usi <code>!cerca</code> su Discord o i comandi Telegram, il sistema garantisce link "puliti" e risultati estratti in meno di 1 secondo grazie all'integrazione diretta con SerpApi.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="comandi" class="py-24 px-6">
+        <h2 class="text-4xl font-black text-center mb-16">Interfaccia Comandi</h2>
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 p-8 rounded-3xl">
+                <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Ricerca Globale</h3>
+                <code class="block bg-blue-50 dark:bg-slate-900 p-3 rounded-xl mb-4 font-mono text-blue-600 dark:text-blue-400 text-sm">!cerca [prodotto]</code>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Esegue una scansione Google Shopping e restituisce i migliori risultati verificati.</p>
+            </div>
+            <div class="glass-card bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 p-8 rounded-3xl">
+                <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fab fa-amazon"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Amazon Only</h3>
+                <code class="block bg-orange-50 dark:bg-slate-900 p-3 rounded-xl mb-4 font-mono text-orange-600 dark:text-orange-400 text-sm">!amazon [prodotto]</code>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Filtra i risultati mostrando esclusivamente prodotti venduti su Amazon.it.</p>
+            </div>
+            <div class="glass-card bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 p-8 rounded-3xl">
+                <div class="w-14 h-14 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Offerte Vere</h3>
+                <code class="block bg-red-50 dark:bg-slate-900 p-3 rounded-xl mb-4 font-mono text-red-600 dark:text-red-400 text-sm">!offerte [prodotto]</code>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Mostra solo i prodotti che hanno un prezzo ridotto rispetto al listino.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contatti" class="py-24 px-6 bg-slate-100 dark:bg-[#0a0f1d] border-t border-gray-200 dark:border-gray-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-16">
+                <div class="lg:w-1/3">
+                    <h2 class="text-4xl font-black mb-6 leading-tight">Mettiamoci in contatto</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+                        Sei interessato al progetto o vuoi segnalare un bug nel bot? Scrivici direttamente.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-white dark:bg-slate-800 shadow-md rounded-2xl flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <span class="font-medium">dev@prezzogiusto.it</span>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-white dark:bg-slate-800 shadow-md rounded-2xl flex items-center justify-center text-telegram group-hover:bg-telegram group-hover:text-white transition-all">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <span class="font-medium">Canale Telegram</span>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-white dark:bg-slate-800 shadow-md rounded-2xl flex items-center justify-center text-slate-700 dark:text-white group-hover:bg-black group-hover:text-white transition-all">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <span class="font-medium">GitHub Repository</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3">
+                    <form action="#" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-slate-800 p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700">
+                        <div class="space-y-2 md:col-span-1">
+                            <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Nome</label>
+                            <input type="text" placeholder="Mario Rossi" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        </div>
+                        <div class="space-y-2 md:col-span-1">
+                            <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Email</label>
+                            <input type="email" placeholder="mario@esempio.it" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        </div>
+                        <div class="space-y-2 md:col-span-2">
+                            <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Messaggio</label>
+                            <textarea rows="4" placeholder="Come possiamo aiutarti?" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
+                        </div>
+                        <button type="submit" class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-blue-600/20">
+                            INVIA MESSAGGIO
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer
-        class="py-10 text-center text-gray-600 dark:text-gray-500 text-sm border-t border-gray-200 dark:border-gray-800 transition-colors">
-        <p>© 2026 PrezzoBot. Sviluppato con Python & SerpApi.</p>
+    <footer class="py-12 bg-white dark:bg-[#0f172a] border-t border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <div class="bg-blue-600 p-2 rounded-lg text-white">
+                    <i class="fas fa-robot text-sm"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">Prezzo<span class="text-blue-500">Giusto</span></span>
+            </div>
+            
+            <div class="flex space-x-6 text-gray-400 text-2xl">
+                <a href="#" class="hover:text-discord transition-all transform hover:scale-110"><i class="fab fa-discord"></i></a>
+                <a href="#" class="hover:text-telegram transition-all transform hover:scale-110"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-all transform hover:scale-110"><i class="fab fa-github"></i></a>
+                <a href="#" class="hover:text-blue-700 transition-all transform hover:scale-110"><i class="fab fa-linkedin"></i></a>
+            </div>
+            
+            <p class="text-sm text-gray-500 font-medium">
+                © 2026 PrezzoGiusto. Realizzato per ITS 2026.
+            </p>
+        </div>
     </footer>
 
     <script>
-        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-        // Mostra l'icona corretta al caricamento
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
             themeToggleLightIcon.classList.remove('hidden');
         } else {
+            document.documentElement.classList.remove('dark');
             themeToggleDarkIcon.classList.remove('hidden');
         }
 
-        var themeToggleBtn = document.getElementById('theme-toggle');
-
-        themeToggleBtn.addEventListener('click', function () {
-            // Inverti le icone
+        themeToggleBtn.addEventListener('click', function() {
             themeToggleDarkIcon.classList.toggle('hidden');
             themeToggleLightIcon.classList.toggle('hidden');
 
-            // Se è stato salvato un tema in precedenza
-            if (localStorage.getItem('color-theme')) {
-                if (localStorage.getItem('color-theme') === 'light') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('color-theme', 'dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('color-theme', 'light');
-                }
-                // Se NON c'è un tema salvato
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
             } else {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('color-theme', 'light');
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('color-theme', 'dark');
-                }
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
             }
-
         });
     </script>
 </body>
-
 </html>

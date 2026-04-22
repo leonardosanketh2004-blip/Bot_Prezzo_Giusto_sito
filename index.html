@@ -86,7 +86,7 @@
                 <a href="https://discord.com/oauth2/authorize?client_id=1485954380946477056" class="bg-discord hover:shadow-discord/30 hover:shadow-2xl transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3">
                     <i class="fab fa-discord text-xl"></i> Discord Bot
                 </a>
-                <a href="#" class="bg-telegram hover:shadow-telegram/30 hover:shadow-2xl transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3">
+                <a href="https://t.me/PrezzoGiusto_ITS_Bot" class="bg-telegram hover:shadow-telegram/30 hover:shadow-2xl transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3">
                     <i class="fab fa-telegram-plane text-xl"></i> Telegram Bot
                 </a>
             </div>
@@ -203,18 +203,19 @@
                 </div>
 
                 <div class="lg:w-2/3">
-                    <form action="#" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-slate-800 p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700">
+                    <div id="form-messaggio" class="hidden mb-6 p-4 rounded-2xl font-bold text-center transition-all"></div>
+                    <form id="contatto-form" action="invia.php" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-slate-800 p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700">
                         <div class="space-y-2 md:col-span-1">
                             <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Nome</label>
-                            <input type="text" placeholder="Mario Rossi" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                            <input type="text" name="nome" required placeholder="Mario Rossi" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                         </div>
                         <div class="space-y-2 md:col-span-1">
                             <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Email</label>
-                            <input type="email" placeholder="mario@esempio.it" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                            <input type="email" name="email" required placeholder="mario@esempio.it" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                         </div>
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-sm font-bold uppercase tracking-wider text-gray-400">Messaggio</label>
-                            <textarea rows="4" placeholder="Come possiamo aiutarti?" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
+                            <textarea name="messaggio" rows="4" required placeholder="Come possiamo aiutarti?" class="w-full bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
                         </div>
                         <button type="submit" class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-blue-600/20">
                             INVIA MESSAGGIO
@@ -271,6 +272,40 @@
                 document.documentElement.classList.add('dark');
                 localStorage.setItem('color-theme', 'dark');
             }
+        });
+    </script>
+
+    <script>
+        const form = document.getElementById('contatto-form');
+        const messaggioDiv = document.getElementById('form-messaggio');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            fetch('invia.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                messaggioDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+                
+                if (data.success) {
+                    messaggioDiv.classList.add('bg-green-100', 'text-green-800', 'dark:bg-green-900/40', 'dark:text-green-300');
+                    messaggioDiv.textContent = data.message;
+                    form.reset();
+                } else {
+                    messaggioDiv.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900/40', 'dark:text-red-300');
+                    messaggioDiv.textContent = data.message;
+                }
+            })
+            .catch(error => {
+                messaggioDiv.classList.remove('hidden');
+                messaggioDiv.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900/40', 'dark:text-red-300');
+                messaggioDiv.textContent = 'Errore di connessione. Riprova più tardi.';
+            });
         });
     </script>
 </body>
